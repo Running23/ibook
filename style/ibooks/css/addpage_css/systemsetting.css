@@ -1,0 +1,28 @@
+    #b {
+        padding-top: 10px;
+    }
+    #a {
+        -moz-columns: 300px 2;
+        padding-left: 50px;
+        -webkit-columns: 300px 2;
+        text-align: center;
+        column-gap: normal;
+        column-gap: 0px;
+        column-fill: balance
+    }
+    .t {
+        border-collapse: separate;
+        border-spacing: 5px;
+    }
+  .tetle{background-image: url(<%=basePath%>/style/ibooks/img/5.jpg);}
+  .text_one{font-size:1.6em;margin-bottom:10px}
+.space{margin-left:5px;}
+.img_one{width:25px;margin:25px 10px 0 20px;}
+td{border:1px solid #F7C248;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+table{border:1px solid #F7C248;}
+.btn_one{margin:0;pdding:0;font-weight:0;border-bottom:0;}
+.inp_one{margin:0;}
+@media (max-width:480px) {			
+	td{font-size:.8em;}
+	.space{margin-left:0px;}
+}

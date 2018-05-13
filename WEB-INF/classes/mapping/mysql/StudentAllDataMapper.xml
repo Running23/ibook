@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.StudentAllDataMapper" >
+  <resultMap id="BaseResultMap" type="com.ibook.model.StudentAllData" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="depart" property="depart" jdbcType="VARCHAR" />
+    <result column="student_id" property="studentId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="cognizance_grade" property="cognizanceGrade" jdbcType="VARCHAR" />
+    <result column="jian_xue_jin" property="jianXueJin" jdbcType="INTEGER" />
+    <result column="zhu_xue_jin" property="zhuXueJin" jdbcType="INTEGER" />
+    <result column="li_zhi" property="liZhi" jdbcType="INTEGER" />
+    <result column="jian_bu" property="jianBu" jdbcType="INTEGER" />
+    <result column="xiao_yuan_di" property="xiaoYuanDi" jdbcType="INTEGER" />
+    <result column="sheng_yuan_di" property="shengYuanDi" jdbcType="INTEGER" />
+    <result column="you_xiu_gan_bu" property="youXiuGanBu" jdbcType="DOUBLE" />
+    <result column="sheng_huo_bu" property="shengHuoBu" jdbcType="INTEGER" />
+    <result column="guo_jia_jian" property="guoJiaJian" jdbcType="INTEGER" />
+    <result column="zi_qiang" property="ziQiang" jdbcType="INTEGER" />
+    <result column="gong_yi" property="gongYi" jdbcType="INTEGER" />
+    <result column="wen_ti" property="wenTi" jdbcType="INTEGER" />
+    <result column="chuang_ye" property="chuangYe" jdbcType="INTEGER" />
+    <result column="gan_bu" property="ganBu" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, depart, student_id, name, cognizance_grade, jian_xue_jin, zhu_xue_jin, li_zhi, 
+    jian_bu, xiao_yuan_di, sheng_yuan_di, you_xiu_gan_bu, sheng_huo_bu, guo_jia_jian, 
+    zi_qiang, gong_yi, wen_ti, chuang_ye, gan_bu
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ibook.model.StudentAllDataExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from student_all_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from student_all_data
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from student_all_data
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ibook.model.StudentAllDataExample" >
+    delete from student_all_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ibook.model.StudentAllData" >
+    insert into student_all_data (id, depart, student_id, 
+      name, cognizance_grade, jian_xue_jin, 
+      zhu_xue_jin, li_zhi, jian_bu, 
+      xiao_yuan_di, sheng_yuan_di, you_xiu_gan_bu, 
+      sheng_huo_bu, guo_jia_jian, zi_qiang, 
+      gong_yi, wen_ti, chuang_ye, 
+      gan_bu)
+    values (#{id,jdbcType=INTEGER}, #{depart,jdbcType=VARCHAR}, #{studentId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{cognizanceGrade,jdbcType=VARCHAR}, #{jianXueJin,jdbcType=INTEGER}, 
+      #{zhuXueJin,jdbcType=INTEGER}, #{liZhi,jdbcType=INTEGER}, #{jianBu,jdbcType=INTEGER}, 
+      #{xiaoYuanDi,jdbcType=INTEGER}, #{shengYuanDi,jdbcType=INTEGER}, #{youXiuGanBu,jdbcType=DOUBLE}, 
+      #{shengHuoBu,jdbcType=INTEGER}, #{guoJiaJian,jdbcType=INTEGER}, #{ziQiang,jdbcType=INTEGER}, 
+      #{gongYi,jdbcType=INTEGER}, #{wenTi,jdbcType=INTEGER}, #{chuangYe,jdbcType=INTEGER}, 
+      #{ganBu,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ibook.model.StudentAllData" >
+    insert into student_all_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="depart != null" >
+        depart,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="cognizanceGrade != null" >
+        cognizance_grade,
+      </if>
+      <if test="jianXueJin != null" >
+        jian_xue_jin,
+      </if>
+      <if test="zhuXueJin != null" >
+        zhu_xue_jin,
+      </if>
+      <if test="liZhi != null" >
+        li_zhi,
+      </if>
+      <if test="jianBu != null" >
+        jian_bu,
+      </if>
+      <if test="xiaoYuanDi != null" >
+        xiao_yuan_di,
+      </if>
+      <if test="shengYuanDi != null" >
+        sheng_yuan_di,
+      </if>
+      <if test="youXiuGanBu != null" >
+        you_xiu_gan_bu,
+      </if>
+      <if test="shengHuoBu != null" >
+        sheng_huo_bu,
+      </if>
+      <if test="guoJiaJian != null" >
+        guo_jia_jian,
+      </if>
+      <if test="ziQiang != null" >
+        zi_qiang,
+      </if>
+      <if test="gongYi != null" >
+        gong_yi,
+      </if>
+      <if test="wenTi != null" >
+        wen_ti,
+      </if>
+      <if test="chuangYe != null" >
+        chuang_ye,
+      </if>
+      <if test="ganBu != null" >
+        gan_bu,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="depart != null" >
+        #{depart,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cognizanceGrade != null" >
+        #{cognizanceGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="jianXueJin != null" >
+        #{jianXueJin,jdbcType=INTEGER},
+      </if>
+      <if test="zhuXueJin != null" >
+        #{zhuXueJin,jdbcType=INTEGER},
+      </if>
+      <if test="liZhi != null" >
+        #{liZhi,jdbcType=INTEGER},
+      </if>
+      <if test="jianBu != null" >
+        #{jianBu,jdbcType=INTEGER},
+      </if>
+      <if test="xiaoYuanDi != null" >
+        #{xiaoYuanDi,jdbcType=INTEGER},
+      </if>
+      <if test="shengYuanDi != null" >
+        #{shengYuanDi,jdbcType=INTEGER},
+      </if>
+      <if test="youXiuGanBu != null" >
+        #{youXiuGanBu,jdbcType=DOUBLE},
+      </if>
+      <if test="shengHuoBu != null" >
+        #{shengHuoBu,jdbcType=INTEGER},
+      </if>
+      <if test="guoJiaJian != null" >
+        #{guoJiaJian,jdbcType=INTEGER},
+      </if>
+      <if test="ziQiang != null" >
+        #{ziQiang,jdbcType=INTEGER},
+      </if>
+      <if test="gongYi != null" >
+        #{gongYi,jdbcType=INTEGER},
+      </if>
+      <if test="wenTi != null" >
+        #{wenTi,jdbcType=INTEGER},
+      </if>
+      <if test="chuangYe != null" >
+        #{chuangYe,jdbcType=INTEGER},
+      </if>
+      <if test="ganBu != null" >
+        #{ganBu,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ibook.model.StudentAllDataExample" resultType="java.lang.Integer" >
+    select count(*) from student_all_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update student_all_data
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.depart != null" >
+        depart = #{record.depart,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null" >
+        student_id = #{record.studentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cognizanceGrade != null" >
+        cognizance_grade = #{record.cognizanceGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jianXueJin != null" >
+        jian_xue_jin = #{record.jianXueJin,jdbcType=INTEGER},
+      </if>
+      <if test="record.zhuXueJin != null" >
+        zhu_xue_jin = #{record.zhuXueJin,jdbcType=INTEGER},
+      </if>
+      <if test="record.liZhi != null" >
+        li_zhi = #{record.liZhi,jdbcType=INTEGER},
+      </if>
+      <if test="record.jianBu != null" >
+        jian_bu = #{record.jianBu,jdbcType=INTEGER},
+      </if>
+      <if test="record.xiaoYuanDi != null" >
+        xiao_yuan_di = #{record.xiaoYuanDi,jdbcType=INTEGER},
+      </if>
+      <if test="record.shengYuanDi != null" >
+        sheng_yuan_di = #{record.shengYuanDi,jdbcType=INTEGER},
+      </if>
+      <if test="record.youXiuGanBu != null" >
+        you_xiu_gan_bu = #{record.youXiuGanBu,jdbcType=DOUBLE},
+      </if>
+      <if test="record.shengHuoBu != null" >
+        sheng_huo_bu = #{record.shengHuoBu,jdbcType=INTEGER},
+      </if>
+      <if test="record.guoJiaJian != null" >
+        guo_jia_jian = #{record.guoJiaJian,jdbcType=INTEGER},
+      </if>
+      <if test="record.ziQiang != null" >
+        zi_qiang = #{record.ziQiang,jdbcType=INTEGER},
+      </if>
+      <if test="record.gongYi != null" >
+        gong_yi = #{record.gongYi,jdbcType=INTEGER},
+      </if>
+      <if test="record.wenTi != null" >
+        wen_ti = #{record.wenTi,jdbcType=INTEGER},
+      </if>
+      <if test="record.chuangYe != null" >
+        chuang_ye = #{record.chuangYe,jdbcType=INTEGER},
+      </if>
+      <if test="record.ganBu != null" >
+        gan_bu = #{record.ganBu,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update student_all_data
+    set id = #{record.id,jdbcType=INTEGER},
+      depart = #{record.depart,jdbcType=VARCHAR},
+      student_id = #{record.studentId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      cognizance_grade = #{record.cognizanceGrade,jdbcType=VARCHAR},
+      jian_xue_jin = #{record.jianXueJin,jdbcType=INTEGER},
+      zhu_xue_jin = #{record.zhuXueJin,jdbcType=INTEGER},
+      li_zhi = #{record.liZhi,jdbcType=INTEGER},
+      jian_bu = #{record.jianBu,jdbcType=INTEGER},
+      xiao_yuan_di = #{record.xiaoYuanDi,jdbcType=INTEGER},
+      sheng_yuan_di = #{record.shengYuanDi,jdbcType=INTEGER},
+      you_xiu_gan_bu = #{record.youXiuGanBu,jdbcType=DOUBLE},
+      sheng_huo_bu = #{record.shengHuoBu,jdbcType=INTEGER},
+      guo_jia_jian = #{record.guoJiaJian,jdbcType=INTEGER},
+      zi_qiang = #{record.ziQiang,jdbcType=INTEGER},
+      gong_yi = #{record.gongYi,jdbcType=INTEGER},
+      wen_ti = #{record.wenTi,jdbcType=INTEGER},
+      chuang_ye = #{record.chuangYe,jdbcType=INTEGER},
+      gan_bu = #{record.ganBu,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ibook.model.StudentAllData" >
+    update student_all_data
+    <set >
+      <if test="depart != null" >
+        depart = #{depart,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cognizanceGrade != null" >
+        cognizance_grade = #{cognizanceGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="jianXueJin != null" >
+        jian_xue_jin = #{jianXueJin,jdbcType=INTEGER},
+      </if>
+      <if test="zhuXueJin != null" >
+        zhu_xue_jin = #{zhuXueJin,jdbcType=INTEGER},
+      </if>
+      <if test="liZhi != null" >
+        li_zhi = #{liZhi,jdbcType=INTEGER},
+      </if>
+      <if test="jianBu != null" >
+        jian_bu = #{jianBu,jdbcType=INTEGER},
+      </if>
+      <if test="xiaoYuanDi != null" >
+        xiao_yuan_di = #{xiaoYuanDi,jdbcType=INTEGER},
+      </if>
+      <if test="shengYuanDi != null" >
+        sheng_yuan_di = #{shengYuanDi,jdbcType=INTEGER},
+      </if>
+      <if test="youXiuGanBu != null" >
+        you_xiu_gan_bu = #{youXiuGanBu,jdbcType=DOUBLE},
+      </if>
+      <if test="shengHuoBu != null" >
+        sheng_huo_bu = #{shengHuoBu,jdbcType=INTEGER},
+      </if>
+      <if test="guoJiaJian != null" >
+        guo_jia_jian = #{guoJiaJian,jdbcType=INTEGER},
+      </if>
+      <if test="ziQiang != null" >
+        zi_qiang = #{ziQiang,jdbcType=INTEGER},
+      </if>
+      <if test="gongYi != null" >
+        gong_yi = #{gongYi,jdbcType=INTEGER},
+      </if>
+      <if test="wenTi != null" >
+        wen_ti = #{wenTi,jdbcType=INTEGER},
+      </if>
+      <if test="chuangYe != null" >
+        chuang_ye = #{chuangYe,jdbcType=INTEGER},
+      </if>
+      <if test="ganBu != null" >
+        gan_bu = #{ganBu,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ibook.model.StudentAllData" >
+    update student_all_data
+    set depart = #{depart,jdbcType=VARCHAR},
+      student_id = #{studentId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      cognizance_grade = #{cognizanceGrade,jdbcType=VARCHAR},
+      jian_xue_jin = #{jianXueJin,jdbcType=INTEGER},
+      zhu_xue_jin = #{zhuXueJin,jdbcType=INTEGER},
+      li_zhi = #{liZhi,jdbcType=INTEGER},
+      jian_bu = #{jianBu,jdbcType=INTEGER},
+      xiao_yuan_di = #{xiaoYuanDi,jdbcType=INTEGER},
+      sheng_yuan_di = #{shengYuanDi,jdbcType=INTEGER},
+      you_xiu_gan_bu = #{youXiuGanBu,jdbcType=DOUBLE},
+      sheng_huo_bu = #{shengHuoBu,jdbcType=INTEGER},
+      guo_jia_jian = #{guoJiaJian,jdbcType=INTEGER},
+      zi_qiang = #{ziQiang,jdbcType=INTEGER},
+      gong_yi = #{gongYi,jdbcType=INTEGER},
+      wen_ti = #{wenTi,jdbcType=INTEGER},
+      chuang_ye = #{chuangYe,jdbcType=INTEGER},
+      gan_bu = #{ganBu,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

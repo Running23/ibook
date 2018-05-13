@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.exp.ReadersExtendMapperExp">
+	<resultMap type="com.ibook.model.Readers" id="BaseResultMap">
+		<id column="reader_id" property="readerId" jdbcType="INTEGER" />
+		<result column="reader_name" property="readerName" jdbcType="VARCHAR" />
+		<result column="reader_nickname" property="readerNickname" jdbcType="VARCHAR" />
+		<result column="role_status" property="roleStatus" jdbcType="TINYINT" />
+		<result column="sex" property="sex" jdbcType="TINYINT" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="reader_address" property="readerAddress" jdbcType="VARCHAR" />
+		<result column="created" property="created" jdbcType="DATE" />
+		<result column="updated" property="updated" jdbcType="DATE" />
+		<result column="reader_status" property="readerStatus" jdbcType="TINYINT" />
+		<result column="reader_department" property="readerDepartment" jdbcType="VARCHAR" />
+		<result column="reader_picpath" property="readerPicpath" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="machine_readerid" property="machineReaderid" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		reader_id, reader_name, reader_nickname, role_status,sex,password,phone,email,reader_address,created,updated,reader_status,reader_department,reader_picpath,status,machine_readerid,content
+	</sql>
+
+	<select id="selectByReaderNickName" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from readers
+		where reader_nickname = #{readernickname,jdbcType=VARCHAR}
+	</select>
+<!-- distinct 过滤结果集重复的记录 -->
+	<select id="getRoles" resultType="java.lang.String">
+		select distinct
+		r.role_name
+		from
+		readers u
+		left join readers_roles ur on u.reader_id = ur.reader_id
+		left join roles r on
+		ur.role_id = r.role_id
+		where u.reader_nickname = #{readername,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getPermissions" resultType="java.lang.String">
+		select distinct
+		p.permission_name
+		from readers u
+		left join readers_roles ur on u.reader_id =
+		ur.reader_id
+		left join roles r on ur.role_id = r.role_id
+		left join
+		role_permission rp on rp.role_id = r.role_id
+		left join permission p on
+		rp.permission_id = p.id
+		where u.reader_nickname = #{readername,jdbcType=VARCHAR}
+	</select>
+</mapper>

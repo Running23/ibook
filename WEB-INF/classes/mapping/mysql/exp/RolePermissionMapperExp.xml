@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.exp.RolePermissionMapperExp">
+<!-- insertMore -->
+	<sql id="insertMore">
+		<foreach collection="permissionList" item="permissionList" separator="," >
+			(#{roles.roleId},#{permissionList})
+		</foreach>	
+	</sql>
+<!-- insertMore -->
+	
+<!-- 批量插入 -->
+	<insert id="rolePermission" useGeneratedKeys="true" parameterType="com.ibook.vo.RolesQueryVo">  
+	    insert into role_permission (role_id,permission_id)   
+	    values  
+	    <include refid="insertMore"/>
+	</insert>  
+<!-- 批量插入 -->
+
+<!-- 插入角色权限 -->
+	<!-- 插入后返回最后一个插入的id -->
+    <insert id="insertRole" parameterType="com.ibook.vo.RolesQueryVo">
+        insert roles (role_name,role_content) 
+        values (#{roles.roleName},#{roles.roleContent})
+        <selectKey resultType="Integer" order="AFTER" keyProperty="roles.roleId">
+            SELECT LAST_INSERT_ID() AS roleId
+        </selectKey>
+    </insert>
+    <!-- 插入后返回最后一个插入的id -->
+<!-- 批量插入 -->
+	<insert id="checkedPermission" useGeneratedKeys="true" parameterType="com.ibook.vo.RolesQueryVo">  
+	    insert into role_permission (role_id,permission_id)   
+	    values  
+	    <include refid="insertMore"/>
+	</insert>  
+<!-- 批量插入 -->
+<!-- 插入角色权限 -->
+
+
+
+
+
+<!--查询角色所对应的权限  -->
+<resultMap type="com.ibook.model.exp.RolePermissionExp" id="RoleAndPermissionMap">
+    <id column="role_id" property="roleId" />
+    <result column="role_name" property="roleName" />
+    <result column="role_content" property="roleContent" />
+    <collection property="permissionList"  ofType="com.ibook.model.Permission">
+    <id column="id" property="id"/>
+    <result column="permission_name" property="permissionName" />
+    <result column="permission_content" property="permissionContent" />
+    </collection>
+</resultMap>
+<!--查询角色所对应的权限  -->
+
+
+<!--一对多查询角色权限  -->
+<select id="getRolePermissionExpList" resultMap="RoleAndPermissionMap">
+	select * 
+	from roles,role_permission,permission 
+	where roles.role_id=role_permission.role_id and role_permission.permission_id=permission.id;
+</select>
+<!--一对多查询角色权限  -->
+
+</mapper>

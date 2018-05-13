@@ -1,0 +1,9 @@
+.tab_one{
+	background-color:#FFE199;border-radius:1em;margin-bottom:.5rem;
+}
+.table_one{margin:2em 0 2em 0}
+.sel{font-size:2.5em;margin:1em 0 1em 0;height:30px}
+.text_three th,.text_three td{font-size:2em;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+td{background-color:white;}
+.text_two{font-size:2em;text-align:center;line-height:2em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.inp{margin:1em 0 1em 0;}

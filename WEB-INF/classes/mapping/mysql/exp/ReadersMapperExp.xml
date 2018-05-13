@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.exp.ReadersMapperExp" >
+	<sql id="query_user_where">
+		<foreach collection="ids" item="reader_id"   open="and reader_id in(" separator="," close=")">
+			#{reader_id}
+		</foreach>
+	</sql>
+
+
+	<update id="updateByCheck" parameterType="com.ibook.vo.ReadersQueryVo" >
+	    update readers 
+	    SET status = 0,reader_status=0
+	    <where>
+	    <include refid="query_user_where"/>
+	    </where>
+  	</update>
+    <delete id="deleteReadersByCheck" parameterType="com.ibook.vo.ReadersQueryVo">
+    	delete from  readers
+	    <where>
+	    <include refid="query_user_where"/>
+	    </where>    
+    </delete>
+
+</mapper>

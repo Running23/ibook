@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+
+  <!-- 分布式缓存配置 -->
+
+  <!-- 磁盘缓存位置，缓存对象要实现序列化才可以保存在磁盘 -->
+  <diskStore path="java.io.tmpdir"/>
+
+  <!--缓存成员发现工厂，管理cacheManager对象 -->
+  <!-- timeToLive
+    0是限制在同一个服务器
+    1是限制在同一个子网
+    32是限制在同一个网站
+    64是限制在同一个region
+    128是限制在同一个大洲
+    255是不限制-->
+  <cacheManagerPeerProviderFactory class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+                                   properties="peerDiscovery=automatic,
+                                                multicastGroupAddress=230.0.0.1,
+                                                multicastGroupPort=4446,
+                                                multicastPacketTimeToLive=32" />
+  <!--针对cacheManager事件的监听，这里只介绍properties中的hostName、port属性，
+         这里我忽略了hostName的配置，查看他们的源码发现如果不填写hostName，
+        他们就会通过JDK中的InterAddress.getLocalHost().getHostAddress()获取本机的ip地址，
+        所以在这里我没有填写hostName的配置，方便部署到多台硬件服务器上。
+        但是如果一台已经服务器上有多个网卡，这里一定要指定hostName的IP，原因参考InterAddress源码。
+        post这里可以指定端口，如果这里不填写port配置，ehcache就会通过ServerSocket的getLocalPort获取一个本机没有被占用的端口 -->
+  <cacheManagerPeerListenerFactory class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory" />
+
+  <!-- 默认缓存 -->
+  <defaultCache
+          maxEntriesLocalHeap="10000"
+          eternal="false"
+          timeToIdleSeconds="180"
+          timeToLiveSeconds="180"
+          maxEntriesLocalDisk="10000000"
+          diskExpiryThreadIntervalSeconds="180"
+          memoryStoreEvictionPolicy="LRU"/>
+
+  <!-- 普通 缓存配置（缓存60秒） -->
+  <cache name="commonCache"
+         maxElementsInMemory="100"
+         maxElementsOnDisk="100000"
+         eternal="false"
+         overflowToDisk="true"
+         diskSpoolBufferSizeMB="500"
+         timeToIdleSeconds="300"
+         timeToLiveSeconds="300"
+         diskPersistent="true"
+         memoryStoreEvictionPolicy="LFU">
+    <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                               properties="replicateUpdatesViaCopy=false" />
+    <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+  </cache>
+</ehcache>
+
+
+
+
+        <!--
+        name: Cache的唯一标识.
+        maxElementsInMemory: 内存中最大缓存对象数.
+        maxElementsOnDisk: 磁盘中最大缓存对象数, 若是0表示无穷大.
+        eternal: Element 是否永久有效, 一但设置了, timeout 将不起作用.
+        overflowToDisk: 当内存中 Element 数量达到 maxElementsInMemory 时, Ehcache 是否将 Element 写到磁盘中.
+        timeToIdleSeconds:  设置 Element 在失效前的允许闲置时间. 仅当 element 不是永久有效时使用,
+                            可选属性, 默认为 0 : 表示可闲置时间无穷大.
+        timeToLiveSeconds:  设置 Element 在失效前允许存活时间. 最大时间介于创建时间和失效时间之间.
+                            仅当 Element 不是永久有效时使用, 默认为 0 : 表示存活时间无穷大.
+        diskPersistent: 是否缓存虚拟机重启期数据.
+        diskExpiryThreadIntervalSeconds: 磁盘失效线程运行时间间隔, 默认是 120 秒.
+        diskSpoolBufferSizeMB: 这个参数设置 DiskStore(磁盘缓存) 的缓存区大小. 默认 30MB.
+        memoryStoreEvictionPolicy:  当达到 maxElementsInMemory 限制时, Ehcache 将会根据指定的策略去清理内存.
+                                    默认策略是 LRU(最近最少使用). 可以设置为 FIFO(先进先出) 或 LFU(较少使用).
+        -->
+
+
+

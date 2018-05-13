@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.ReadersMapper" >
+  <resultMap id="BaseResultMap" type="com.ibook.model.Readers" >
+    <id column="reader_id" property="readerId" jdbcType="INTEGER" />
+    <result column="reader_name" property="readerName" jdbcType="VARCHAR" />
+    <result column="reader_nickname" property="readerNickname" jdbcType="VARCHAR" />
+    <result column="role_status" property="roleStatus" jdbcType="TINYINT" />
+    <result column="sex" property="sex" jdbcType="TINYINT" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="reader_address" property="readerAddress" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+    <result column="reader_status" property="readerStatus" jdbcType="TINYINT" />
+    <result column="reader_department" property="readerDepartment" jdbcType="VARCHAR" />
+    <result column="reader_picpath" property="readerPicpath" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="machine_readerid" property="machineReaderid" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ibook.model.Readers" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    reader_id, reader_name, reader_nickname, role_status, sex, password, phone, email, 
+    reader_address, created, updated, reader_status, reader_department, reader_picpath, 
+    status, machine_readerid
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.ibook.model.ReadersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from readers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ibook.model.ReadersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from readers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from readers
+    where reader_id = #{readerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from readers
+    where reader_id = #{readerId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ibook.model.ReadersExample" >
+    delete from readers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ibook.model.Readers" >
+    insert into readers (reader_id, reader_name, reader_nickname, 
+      role_status, sex, password, 
+      phone, email, reader_address, 
+      created, updated, reader_status, 
+      reader_department, reader_picpath, status, 
+      machine_readerid, content)
+    values (#{readerId,jdbcType=INTEGER}, #{readerName,jdbcType=VARCHAR}, #{readerNickname,jdbcType=VARCHAR}, 
+      #{roleStatus,jdbcType=TINYINT}, #{sex,jdbcType=TINYINT}, #{password,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{readerAddress,jdbcType=VARCHAR}, 
+      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, #{readerStatus,jdbcType=TINYINT}, 
+      #{readerDepartment,jdbcType=VARCHAR}, #{readerPicpath,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{machineReaderid,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ibook.model.Readers" >
+    insert into readers
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="readerId != null" >
+        reader_id,
+      </if>
+      <if test="readerName != null" >
+        reader_name,
+      </if>
+      <if test="readerNickname != null" >
+        reader_nickname,
+      </if>
+      <if test="roleStatus != null" >
+        role_status,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="readerAddress != null" >
+        reader_address,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="updated != null" >
+        updated,
+      </if>
+      <if test="readerStatus != null" >
+        reader_status,
+      </if>
+      <if test="readerDepartment != null" >
+        reader_department,
+      </if>
+      <if test="readerPicpath != null" >
+        reader_picpath,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="machineReaderid != null" >
+        machine_readerid,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="readerId != null" >
+        #{readerId,jdbcType=INTEGER},
+      </if>
+      <if test="readerName != null" >
+        #{readerName,jdbcType=VARCHAR},
+      </if>
+      <if test="readerNickname != null" >
+        #{readerNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="roleStatus != null" >
+        #{roleStatus,jdbcType=TINYINT},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="readerAddress != null" >
+        #{readerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readerStatus != null" >
+        #{readerStatus,jdbcType=TINYINT},
+      </if>
+      <if test="readerDepartment != null" >
+        #{readerDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="readerPicpath != null" >
+        #{readerPicpath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="machineReaderid != null" >
+        #{machineReaderid,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ibook.model.ReadersExample" resultType="java.lang.Integer" >
+    select count(*) from readers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update readers
+    <set >
+      <if test="record.readerId != null" >
+        reader_id = #{record.readerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.readerName != null" >
+        reader_name = #{record.readerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readerNickname != null" >
+        reader_nickname = #{record.readerNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleStatus != null" >
+        role_status = #{record.roleStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=TINYINT},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readerAddress != null" >
+        reader_address = #{record.readerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updated != null" >
+        updated = #{record.updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.readerStatus != null" >
+        reader_status = #{record.readerStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.readerDepartment != null" >
+        reader_department = #{record.readerDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readerPicpath != null" >
+        reader_picpath = #{record.readerPicpath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.machineReaderid != null" >
+        machine_readerid = #{record.machineReaderid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update readers
+    set reader_id = #{record.readerId,jdbcType=INTEGER},
+      reader_name = #{record.readerName,jdbcType=VARCHAR},
+      reader_nickname = #{record.readerNickname,jdbcType=VARCHAR},
+      role_status = #{record.roleStatus,jdbcType=TINYINT},
+      sex = #{record.sex,jdbcType=TINYINT},
+      password = #{record.password,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      reader_address = #{record.readerAddress,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      updated = #{record.updated,jdbcType=TIMESTAMP},
+      reader_status = #{record.readerStatus,jdbcType=TINYINT},
+      reader_department = #{record.readerDepartment,jdbcType=VARCHAR},
+      reader_picpath = #{record.readerPicpath,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      machine_readerid = #{record.machineReaderid,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update readers
+    set reader_id = #{record.readerId,jdbcType=INTEGER},
+      reader_name = #{record.readerName,jdbcType=VARCHAR},
+      reader_nickname = #{record.readerNickname,jdbcType=VARCHAR},
+      role_status = #{record.roleStatus,jdbcType=TINYINT},
+      sex = #{record.sex,jdbcType=TINYINT},
+      password = #{record.password,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      reader_address = #{record.readerAddress,jdbcType=VARCHAR},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      updated = #{record.updated,jdbcType=TIMESTAMP},
+      reader_status = #{record.readerStatus,jdbcType=TINYINT},
+      reader_department = #{record.readerDepartment,jdbcType=VARCHAR},
+      reader_picpath = #{record.readerPicpath,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      machine_readerid = #{record.machineReaderid,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ibook.model.Readers" >
+    update readers
+    <set >
+      <if test="readerName != null" >
+        reader_name = #{readerName,jdbcType=VARCHAR},
+      </if>
+      <if test="readerNickname != null" >
+        reader_nickname = #{readerNickname,jdbcType=VARCHAR},
+      </if>
+      <if test="roleStatus != null" >
+        role_status = #{roleStatus,jdbcType=TINYINT},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="readerAddress != null" >
+        reader_address = #{readerAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null" >
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="readerStatus != null" >
+        reader_status = #{readerStatus,jdbcType=TINYINT},
+      </if>
+      <if test="readerDepartment != null" >
+        reader_department = #{readerDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="readerPicpath != null" >
+        reader_picpath = #{readerPicpath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="machineReaderid != null" >
+        machine_readerid = #{machineReaderid,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where reader_id = #{readerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ibook.model.Readers" >
+    update readers
+    set reader_name = #{readerName,jdbcType=VARCHAR},
+      reader_nickname = #{readerNickname,jdbcType=VARCHAR},
+      role_status = #{roleStatus,jdbcType=TINYINT},
+      sex = #{sex,jdbcType=TINYINT},
+      password = #{password,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      reader_address = #{readerAddress,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      reader_status = #{readerStatus,jdbcType=TINYINT},
+      reader_department = #{readerDepartment,jdbcType=VARCHAR},
+      reader_picpath = #{readerPicpath,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      machine_readerid = #{machineReaderid,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where reader_id = #{readerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ibook.model.Readers" >
+    update readers
+    set reader_name = #{readerName,jdbcType=VARCHAR},
+      reader_nickname = #{readerNickname,jdbcType=VARCHAR},
+      role_status = #{roleStatus,jdbcType=TINYINT},
+      sex = #{sex,jdbcType=TINYINT},
+      password = #{password,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      reader_address = #{readerAddress,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      reader_status = #{readerStatus,jdbcType=TINYINT},
+      reader_department = #{readerDepartment,jdbcType=VARCHAR},
+      reader_picpath = #{readerPicpath,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      machine_readerid = #{machineReaderid,jdbcType=VARCHAR}
+    where reader_id = #{readerId,jdbcType=INTEGER}
+  </update>
+</mapper>

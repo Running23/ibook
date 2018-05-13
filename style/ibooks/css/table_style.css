@@ -1,0 +1,13 @@
+.table_style_fixed{
+	table-layout:fixed;
+}
+.td_ellipsis{
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+
+.tdwidth{
+	width:70px;
+	
+}

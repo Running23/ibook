@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.exp.BookLendMapperExp">
+	<sql id="Base_Column_List">
+		b.book_types,b.book_titl,r.reader_name,bl.book_lend_id,b.book_id,
+		r.reader_id,bl.borrow_time,bl.return_time,bl.overtime,bl.fines,bl.reader_account,bl.book_lend_state
+	</sql>
+
+	<select id="findLendInfo" parameterType="int"
+		resultType="com.ibook.model.exp.BookLendExp">
+		select
+		<include refid="Base_Column_List" />
+		from
+		book_lend bl,books b,readers r
+		where
+		b.book_id=bl.book_id
+		and
+		bl.reader_id=r.reader_id
+		and
+		bl.reader_id=#{value}
+		and
+		bl.book_lend_state=1;
+	</select>
+	<select id="findLendingInfo" parameterType="int"
+		resultType="com.ibook.model.exp.BookLendExp">
+		select
+		<include refid="Base_Column_List" />
+		from book_lend bl,books b,readers r
+		where b.book_id=bl.book_id
+		and bl.reader_id=r.reader_id
+		and bl.reader_id=#{value}
+		and bl.book_lend_state=0;
+	</select>
+	
+	<select id="queryBookLendInfoList"  parameterType="com.ibook.model.exp.BookLendExp"
+		resultType="com.ibook.model.exp.BookLendExp">
+		select
+		<include refid="Base_Column_List" />
+		from
+		book_lend bl,books b,readers r
+		where
+		b.book_id=bl.book_id
+		and
+		bl.reader_id=r.reader_id
+		<if test="reader_id!=null">
+		and r.reader_id=#{reader_id,jdbcType=INTEGER}
+		</if>
+		<if test="book_number!=null">
+		and b.book_number=#{book_number,jdbcType=VARCHAR}
+		</if>
+	</select>
+</mapper>

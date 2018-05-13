@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.exp.MenuMapperExp" >
+  <resultMap id="BaseResultMap" type="com.ibook.model.exp.MenuExp" >
+    <id column="ids" property="id" jdbcType="INTEGER" />
+    <result column="father_ids" property="fatherId" jdbcType="DECIMAL" />
+    <result column="child_ids" property="childId" jdbcType="DECIMAL" />
+    <result column="menu_names" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_urls" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="rightss" property="rights" jdbcType="DECIMAL" />
+    <result column="icons" property="icon" jdbcType="VARCHAR" />
+    <collection property="menus" resultMap="com.ibook.mappers.MenuMapper.BaseResultMap"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    m1.id ids, m1.father_id father_ids, m1.child_id child_ids, m1.menu_name menu_names
+    , m1.menu_url menu_urls, m1.rights rightss, m1.icon icons, m2.*
+  </sql>
+  <select id="findMenus" resultMap="BaseResultMap">
+  	SELECT
+		<include refid="Base_Column_List"/>
+	FROM
+		menu m1
+	LEFT JOIN menu m2 ON m1.id = m2.father_id
+	WHERE
+		m1.father_id = 0
+	ORDER BY
+		m1.child_id,
+		m2.child_id
+  </select>
+</mapper>

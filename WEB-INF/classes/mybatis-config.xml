@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!--
+    配置文件的位置必须符合要求，否则会报错，顺序如下:
+    properties?, settings?,
+    typeAliases?, typeHandlers?,
+    objectFactory?,objectWrapperFactory?,
+    plugins?,
+    environments?, databaseIdProvider?, mappers?
+	-->
+	<settings>  
+        <setting name="logImpl" value="LOG4J"/>
+		<!-- 开启二级缓存 -->
+		<setting name="cacheEnabled" value="true"/>
+		<!-- 数据库超过120秒仍未响应则超时 -->
+		<setting name="defaultStatementTimeout" value="120" />
+    </settings>
+
+	<!-- 配置别名  -->
+	<typeAliases>
+		<!-- 批量扫描别名  -->
+		<package name="com.ibook.vo,com.ibook.model"/>
+	</typeAliases>
+
+	<plugins>
+		<!-- pagehelper 分页插件 -->
+		<plugin interceptor="com.github.pagehelper.PageInterceptor">
+			<!-- 方言 -->
+			<property name="helperDialect" value="mysql"/>
+			<!-- 将 RowBounds 中的 offset 参数当成 pageNum 使用，可以用页码和页面大小两个参数进行分页 -->
+			<property name="offsetAsPageNum" value="true"/>
+			<!-- 使用 RowBounds 分页会进行 count 查询 -->
+			<property name="rowBoundsWithCount" value="true"/>
+			<!-- 如果 pageSize=0 或者 RowBounds.limit = 0 就会查询出全部的结果 -->
+			<property name="pageSizeZero" value="true"/>
+			<!-- pageNum<=0 时会查询第一页， pageNum>pages（超过总数时），会查询最后一页 -->
+			<property name="reasonable" value="true"/>
+			<property name="params" value="pageNum=pageNum;pageSize=pageSize;count=countSql;reasonable=reasonable;pageSizeZero=pageSizeZero"/>
+			<!-- 支持通过 Mapper 接口参数来传递分页参数 -->
+			<property name="supportMethodsArguments" value="true"/>
+			<!-- 允许在运行时根据多数据源自动识别对应方言的分页  -->
+			<property name="autoRuntimeDialect" value="true"/>
+			<!-- 当使用运行时动态数据源或没有设置 helperDialect 属性自动获取数据库类型时，会自动获取一个数据库连接;通过该属性来设置是否关闭获取的这个连接，默认true关闭 -->
+			<property name="closeConn" value="true"/>
+		</plugin>
+	</plugins>
+</configuration>

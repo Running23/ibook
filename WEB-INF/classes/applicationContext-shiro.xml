@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.2.xsd">
+	<!-- shiro配置 -->
+	<!-- 自定义Realm -->
+	<bean id="myRealm" class="com.ibook.realm.MyRealm" />
+
+	<!-- 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="myRealm" />
+	</bean>
+
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- Shiro过滤器 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- Shiro的核心安全接口,这个属性是必须的 -->
+		<property name="securityManager" ref="securityManager" />
+		 <!-- 配置我们的登录请求地址,如果路径被拦截均会跳转到此路径:如果没有设置,跳转的路径是项目下的login.jsp-->
+		 <property name="loginUrl" value="/l_system/index/login/view"/>
+<!-- 		 <property name="loginUrl" value="/l_system/index/login"/> -->
+		 <!-- 配置我们在登录页登录成功后的跳转地址，如果你访问的是非登录地址，则跳到您访问的地址 -->
+<!-- 	     <property name="successUrl" value="/l_system/index/view"/> -->
+		 
+		<!-- 权限认证失败，则跳转到指定页面 -->
+<!-- 		<property name="unauthorizedUrl" value="/l_system/index/login/view?msg=unlogin or unauthorized" />  -->
+		<property name="unauthorizedUrl" value="/l_system/index/view" /> 
+
+		<!-- Shiro连接约束配置,即过滤链的定义 -->
+		<!-- anon表示此地址不需要任何权限即可访问
+			 perms[user:query]表示访问此连接需要权限为user:query的用户
+			 roles[manager]表示访问此连接需要用户的角色为manager
+		 -->
+		<property name="filterChainDefinitions">
+			<value>
+				<!-- 静态文件 -->
+				/style/** = anon
+				<!-- 路径拦截 -->
+				/l_system/index/view=anon
+				/l_system/index/login/view=anon
+				/l_system/index/login=anon
+				/l_system/reader/signview=anon
+				/l_system/books/selectByKeyword=anon
+				/l_system/readervisithistory/insert=anon
+				/l_system/lendbookpages/page/lendbookpageview=anon
+				/l_system/books/find=anon
+				/l_system/books/bookquerybyid=anon
+				/l_system/logout=anon
+				/l_system/register=anon
+				/l_system/books/bookinfor/view=anon
+				/l_system/books/bookquery=anon
+				/l_system/countbook/data/searchhistoryinfor=anon
+				/l_system/Statistics/statisticsList/booklendrecommend=anon
+				
+				/l_system/appointbook/insertappointbook=anon
+				/l_system/Statistics/**=anon
+				/l_system/test/**= anon
+				/l_system/addpage/**=anon
+				/l_system/readers/saveRegister=anon
+				/l_system/data_count/sys_count/view=authc,roles["admin"]
+				/l_system/logout= logout 
+<!-- 					/**=anon -->
+			    <!--所有的请求(除去配置的静态资源请求或请求地址为anon的请求)都要通过登录验证,如果未登录则跳到/login-->
+				/**= authc
+			</value>
+		</property>
+	</bean>
+
+</beans>

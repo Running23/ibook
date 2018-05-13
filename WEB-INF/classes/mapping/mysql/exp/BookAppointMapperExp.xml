@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.exp.BookAppointMapperExp">
+<select id="findAppointInfo" parameterType="int" resultType="com.ibook.model.exp.BookAppointExp">
+	select
+	 ba.book_id,ba.order_time,ba.getbook_time,ba.borrow_time,b.book_titl,b.book_barcode,b.author,b.publication_date,b.book_types
+ 	from 
+ 	 book_appoint ba,books b 
+ 	where
+ 	 ba.book_id=b.book_id
+ 	and
+ 	 ba.reader_id=#{value}
+</select>
+
+
+
+</mapper>

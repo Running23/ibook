@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <!-- <param name="ConversionPattern" value="%d %p - %C{1}.%M(%L) | %m%n"/> -->
+            <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} %p [%t] - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="FILE" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="ibook-all.log"/>
+        <param name="Append" value="true"/>
+        <param name="MaxFileSize" value="20000KB"/>
+        <param name="MaxBackupIndex" value="10"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %C{1}.%M(%L) [%t] %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="ERROR-FILE" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="ibook-error.log"/>
+        <param name="Append" value="true"/>
+        <param name="MaxFileSize" value="20000KB"/>
+        <param name="MaxBackupIndex" value="10"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p %C{1}.%M(%L) [%t] %m%n"/>
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="levelMin" value="ERROR" />
+            <param name="levelMax" value="ERROR" />
+            <param name="AcceptOnMatch" value="true" />
+        </filter>
+    </appender>
+
+    <logger name="org.apache.ibatis">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="java.sql">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="org.springframework.transaction">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="com.ibook">
+        <level value="DEBUG" />
+    </logger>
+    <logger name="org.apache.commons.httpclient">
+        <level value="DEBUG" />
+    </logger>
+
+    <logger name="net.sf.ehcache">
+        <level value="DEBUG" />
+    </logger>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="ERROR-FILE"/>
+    </root>
+
+</log4j:configuration>

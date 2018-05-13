@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.exp.SearchHistoryMapperExp">
+	<sql id="Base_Column_List">
+		 b.book_titl,b.book_number,b.author,b.img,b.blurb,sh.book_id,sh.time
+	</sql>
+
+	<insert id="insert" parameterType="com.ibook.model.SearchHistory">
+		insert into search_history (
+		book_id)
+		values ( #{bookId,jdbcType=BIGINT})
+	</insert>
+	<select id="findSearchHistoryInfor" resultType="com.ibook.model.exp.SearchHistoryExp">
+		select
+		<include refid="Base_Column_List" />
+		from books b,search_history sh
+		where b.book_id=sh.book_id order by time desc limit 4
+	</select>
+
+</mapper>

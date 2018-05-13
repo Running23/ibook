@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.exp.ReadersRoleMapperExp">
+	<!-- 查询获取用户信息+用户所具有的角色集合列表 -->
+	<resultMap type="com.ibook.model.exp.ReadersExp" id="readersRoleResultMap">
+		<id column="reader_id" property="readerId" />
+		<result column="reader_name" property="readerName" />
+		<result column="phone" property="phone" />
+		<result column="email" property="email" />
+		<result column="created" property="created" />
+		<result column="reader_status" property="readerStatus" />
+		<collection property="Roles" ofType="com.ibook.model.Roles">
+			<id column="role_id" property="roleId" />
+			<result column="role_name" property="roleName" />
+		</collection>
+	</resultMap>
+
+
+	<sql id="query_role_where">
+		<foreach collection="ids" item="role_id" open="and role_id in("
+			separator="," close=")">
+			#{role_id}
+		</foreach>
+	</sql>
+	<sql id="query_role_status_where">
+		<foreach collection="ids" item="reader_id" open="and reader_id in("
+			separator="," close=")">
+			#{reader_id}
+		</foreach>
+	</sql>
+
+	<sql id="insert">
+		<if test="readers.readerId!=''">
+			<if test="readersRoles.roleId!=''">
+				(#{readers.readerId},#{readersRoles.roleId})
+			</if>
+		</if>
+	</sql>
+
+	<delete id="deleteRolesByCheck" parameterType="com.ibook.vo.RolesQueryVo">
+		delete from roles
+		<where>
+			<include refid="query_role_where" />
+		</where>
+	</delete>
+	<!-- 查询获取用户信息+用户所具有的角色集合列表 -->
+	<select id="selectReadersRoleList" resultMap="readersRoleResultMap">
+		select
+		readers.reader_id,readers.reader_status,readers.reader_name,readers.phone,readers.email,roles.role_name,readers.created,roles.role_id
+		from
+		readers,roles,readers_roles
+		where
+		readers.reader_id=readers_roles.reader_id
+		and
+		roles.role_id=readers_roles.role_id
+	</select>
+
+	<!-- select readers.reader_id,readers.reader_name,readers.phone,readers.email,roles.role_name,readers.created,roles.role_id 
+		from readers,roles,readers_roles where readers.reader_id=readers_roles.reader_id 
+		and roles.role_id=readers_roles.role_id; -->
+	<!-- 删除管理员，实际将角色状态标记为0 -->
+	<update id="updateRoleByCheck" parameterType="com.ibook.vo.ReadersRoleVo">
+		update readers
+		SET role_status=0
+		<where>
+			<include refid="query_role_status_where" />
+		</where>
+	</update>
+
+	<!-- 插入后返回最后一个插入的id -->
+	<insert id="insertManager" parameterType="com.ibook.vo.ReadersRoleVo">
+		insert readers
+		(reader_name,password,sex,phone,email,content,role_status,reader_status,status)
+		values
+		(#{readers.readerName},#{readers.password},#{readers.sex},#{readers.phone},#{readers.email},#{readers.content},1,1,1)
+		<selectKey resultType="Integer" order="AFTER" keyProperty="readers.readerId">
+			SELECT LAST_INSERT_ID() AS readerId
+		</selectKey>
+	</insert>
+
+
+	<!-- 添加管理与角色的关系 -->
+	<insert id="insertManagerRoleRelation" useGeneratedKeys="true"
+		parameterType="com.ibook.vo.ReadersRoleVo">
+		insert into readers_roles (reader_id,role_id)
+		values
+		<include refid="insert" />
+	</insert>
+	<update id="updateManagerRoleRelation" parameterType="com.ibook.vo.ReadersRoleVo">
+		update 
+		readers_roles 
+		set 
+		<if test="readersRoles.roleId!=''">
+			role_id=#{readersRoles.roleId} 
+		</if>
+		where 
+		<if test="readers.readerId!=''">
+			reader_id=#{readers.readerId}
+		</if>
+	</update>
+	<update id="updateByDeleteId" parameterType="int">
+		update 
+		readers
+		set 
+			status=0
+		where 
+			reader_id=#{readerId}
+	</update>
+</mapper>

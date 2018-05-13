@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.exp.StatisticsListMapperExp">
+<resultMap type="com.ibook.model.Books" id="BaseResultMap">
+		<id column="book_id" property="bookId" jdbcType="INTEGER" />
+		<result column="book_number" property="bookNumber" jdbcType="VARCHAR" />
+		<result column="book_titl" property="bookTitl" jdbcType="VARCHAR" />
+		<result column="book_types" property="bookTypes" jdbcType="VARCHAR" />
+</resultMap>
+<select id="getLendRecommend" resultMap="BaseResultMap">
+select 
+	b.book_id,b.book_number,b.book_titl,b.book_types
+from 
+	statistics_list sl,books b 
+where 
+	sl.book_id=b.book_id  order by lendtime desc limit 4
+</select>
+</mapper>

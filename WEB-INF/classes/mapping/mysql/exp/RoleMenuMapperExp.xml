@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.exp.RoleMenuMapperExp">
+	<sql id="query_role_where">
+		<foreach collection="menuArray" item="menuArray" open="and menu_role.menu_id in("
+			separator="," close=")">
+			#{menuArray}
+		</foreach>
+
+	</sql>
+<!-- 批量插入 -->
+	<sql id="insertMore">
+		<foreach collection="menuList" item="menuList" separator="," >
+			(#{roles.roleId},#{menuList})
+		</foreach>	
+	</sql>
+	<!-- 插入后返回最后一个插入的id -->
+<!--     <insert id="insertRole" parameterType="com.ibook.vo.RolesQueryVo"> -->
+<!--         insert roles (role_name,role_content)  -->
+<!--         values (#{roles.roleName},#{roles.roleContent}) -->
+<!--         <selectKey resultType="Integer" order="AFTER" keyProperty="roles.roleId"> -->
+<!--             SELECT LAST_INSERT_ID() AS roleId -->
+<!--         </selectKey> -->
+<!--     </insert> -->
+<!-- 批量插入 -->
+<!-- 	<insert id="checkedMenu" useGeneratedKeys="true" parameterType="com.ibook.vo.RolesQueryVo">   -->
+<!-- 	    insert into menu_role (role_id,menu_id)    -->
+<!-- 	    values   -->
+<!-- 	    <include refid="insertMore"/> -->
+<!-- 	</insert>     	 -->
+</mapper>

@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.BooksMapper" >
+  <resultMap id="BaseResultMap" type="com.ibook.model.Books" >
+    <id column="book_id" property="bookId" jdbcType="INTEGER" />
+    <id column="book_number" property="bookNumber" jdbcType="VARCHAR" />
+    <result column="book_titl" property="bookTitl" jdbcType="VARCHAR" />
+    <result column="book_barcode" property="bookBarcode" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="publishing_house" property="publishingHouse" jdbcType="VARCHAR" />
+    <result column="publication_date" property="publicationDate" jdbcType="DATE" />
+    <result column="mone" property="mone" jdbcType="DOUBLE" />
+    <result column="book_types" property="bookTypes" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="purchasing_date" property="purchasingDate" jdbcType="DATE" />
+    <result column="destroy_date" property="destroyDate" jdbcType="DATE" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="VARCHAR" />
+    <result column="last_tm" property="lastTm" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ibook.model.Books" extends="BaseResultMap" >
+    <result column="blurb" property="blurb" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    book_id, book_number, book_titl, book_barcode, author, publishing_house, publication_date, 
+    mone, book_types, status, purchasing_date, destroy_date, img, uid, last_tm
+  </sql>
+  <sql id="Blob_Column_List" >
+    blurb
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.ibook.model.BooksExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from books
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ibook.model.BooksExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from books
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="com.ibook.model.BooksKey" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from books
+    where book_id = #{bookId,jdbcType=INTEGER}
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.ibook.model.BooksKey" >
+    delete from books
+    where book_id = #{bookId,jdbcType=INTEGER}
+      and book_number = #{bookNumber,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ibook.model.BooksExample" >
+    delete from books
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ibook.model.Books" >
+    insert into books (book_id, book_number, book_titl, 
+      book_barcode, author, publishing_house, 
+      publication_date, mone, book_types, 
+      status, purchasing_date, destroy_date, 
+      img, uid, last_tm, 
+      blurb)
+    values (#{bookId,jdbcType=INTEGER}, #{bookNumber,jdbcType=VARCHAR}, #{bookTitl,jdbcType=VARCHAR}, 
+      #{bookBarcode,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{publishingHouse,jdbcType=VARCHAR}, 
+      #{publicationDate,jdbcType=DATE}, #{mone,jdbcType=DOUBLE}, #{bookTypes,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{purchasingDate,jdbcType=DATE}, #{destroyDate,jdbcType=DATE}, 
+      #{img,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{lastTm,jdbcType=TIMESTAMP}, 
+      #{blurb,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ibook.model.Books" >
+    insert into books
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bookId != null" >
+        book_id,
+      </if>
+      <if test="bookNumber != null" >
+        book_number,
+      </if>
+      <if test="bookTitl != null" >
+        book_titl,
+      </if>
+      <if test="bookBarcode != null" >
+        book_barcode,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="publishingHouse != null" >
+        publishing_house,
+      </if>
+      <if test="publicationDate != null" >
+        publication_date,
+      </if>
+      <if test="mone != null" >
+        mone,
+      </if>
+      <if test="bookTypes != null" >
+        book_types,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="purchasingDate != null" >
+        purchasing_date,
+      </if>
+      <if test="destroyDate != null" >
+        destroy_date,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="lastTm != null" >
+        last_tm,
+      </if>
+      <if test="blurb != null" >
+        blurb,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bookId != null" >
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="bookNumber != null" >
+        #{bookNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bookTitl != null" >
+        #{bookTitl,jdbcType=VARCHAR},
+      </if>
+      <if test="bookBarcode != null" >
+        #{bookBarcode,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publishingHouse != null" >
+        #{publishingHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationDate != null" >
+        #{publicationDate,jdbcType=DATE},
+      </if>
+      <if test="mone != null" >
+        #{mone,jdbcType=DOUBLE},
+      </if>
+      <if test="bookTypes != null" >
+        #{bookTypes,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="purchasingDate != null" >
+        #{purchasingDate,jdbcType=DATE},
+      </if>
+      <if test="destroyDate != null" >
+        #{destroyDate,jdbcType=DATE},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTm != null" >
+        #{lastTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blurb != null" >
+        #{blurb,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ibook.model.BooksExample" resultType="java.lang.Integer" >
+    select count(*) from books
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update books
+    <set >
+      <if test="record.bookId != null" >
+        book_id = #{record.bookId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookNumber != null" >
+        book_number = #{record.bookNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookTitl != null" >
+        book_titl = #{record.bookTitl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookBarcode != null" >
+        book_barcode = #{record.bookBarcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null" >
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishingHouse != null" >
+        publishing_house = #{record.publishingHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publicationDate != null" >
+        publication_date = #{record.publicationDate,jdbcType=DATE},
+      </if>
+      <if test="record.mone != null" >
+        mone = #{record.mone,jdbcType=DOUBLE},
+      </if>
+      <if test="record.bookTypes != null" >
+        book_types = #{record.bookTypes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.purchasingDate != null" >
+        purchasing_date = #{record.purchasingDate,jdbcType=DATE},
+      </if>
+      <if test="record.destroyDate != null" >
+        destroy_date = #{record.destroyDate,jdbcType=DATE},
+      </if>
+      <if test="record.img != null" >
+        img = #{record.img,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastTm != null" >
+        last_tm = #{record.lastTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.blurb != null" >
+        blurb = #{record.blurb,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update books
+    set book_id = #{record.bookId,jdbcType=INTEGER},
+      book_number = #{record.bookNumber,jdbcType=VARCHAR},
+      book_titl = #{record.bookTitl,jdbcType=VARCHAR},
+      book_barcode = #{record.bookBarcode,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      publishing_house = #{record.publishingHouse,jdbcType=VARCHAR},
+      publication_date = #{record.publicationDate,jdbcType=DATE},
+      mone = #{record.mone,jdbcType=DOUBLE},
+      book_types = #{record.bookTypes,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      purchasing_date = #{record.purchasingDate,jdbcType=DATE},
+      destroy_date = #{record.destroyDate,jdbcType=DATE},
+      img = #{record.img,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=VARCHAR},
+      last_tm = #{record.lastTm,jdbcType=TIMESTAMP},
+      blurb = #{record.blurb,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update books
+    set book_id = #{record.bookId,jdbcType=INTEGER},
+      book_number = #{record.bookNumber,jdbcType=VARCHAR},
+      book_titl = #{record.bookTitl,jdbcType=VARCHAR},
+      book_barcode = #{record.bookBarcode,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      publishing_house = #{record.publishingHouse,jdbcType=VARCHAR},
+      publication_date = #{record.publicationDate,jdbcType=DATE},
+      mone = #{record.mone,jdbcType=DOUBLE},
+      book_types = #{record.bookTypes,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=TINYINT},
+      purchasing_date = #{record.purchasingDate,jdbcType=DATE},
+      destroy_date = #{record.destroyDate,jdbcType=DATE},
+      img = #{record.img,jdbcType=VARCHAR},
+      uid = #{record.uid,jdbcType=VARCHAR},
+      last_tm = #{record.lastTm,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ibook.model.Books" >
+    update books
+    <set >
+      <if test="bookTitl != null" >
+        book_titl = #{bookTitl,jdbcType=VARCHAR},
+      </if>
+      <if test="bookBarcode != null" >
+        book_barcode = #{bookBarcode,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="publishingHouse != null" >
+        publishing_house = #{publishingHouse,jdbcType=VARCHAR},
+      </if>
+      <if test="publicationDate != null" >
+        publication_date = #{publicationDate,jdbcType=DATE},
+      </if>
+      <if test="mone != null" >
+        mone = #{mone,jdbcType=DOUBLE},
+      </if>
+      <if test="bookTypes != null" >
+        book_types = #{bookTypes,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="purchasingDate != null" >
+        purchasing_date = #{purchasingDate,jdbcType=DATE},
+      </if>
+      <if test="destroyDate != null" >
+        destroy_date = #{destroyDate,jdbcType=DATE},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="lastTm != null" >
+        last_tm = #{lastTm,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blurb != null" >
+        blurb = #{blurb,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where book_id = #{bookId,jdbcType=INTEGER}
+      and book_number = #{bookNumber,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ibook.model.Books" >
+    update books
+    set book_titl = #{bookTitl,jdbcType=VARCHAR},
+      book_barcode = #{bookBarcode,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      publishing_house = #{publishingHouse,jdbcType=VARCHAR},
+      publication_date = #{publicationDate,jdbcType=DATE},
+      mone = #{mone,jdbcType=DOUBLE},
+      book_types = #{bookTypes,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      purchasing_date = #{purchasingDate,jdbcType=DATE},
+      destroy_date = #{destroyDate,jdbcType=DATE},
+      img = #{img,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=VARCHAR},
+      last_tm = #{lastTm,jdbcType=TIMESTAMP},
+      blurb = #{blurb,jdbcType=LONGVARCHAR}
+    where book_id = #{bookId,jdbcType=INTEGER}
+      and book_number = #{bookNumber,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ibook.model.Books" >
+    update books
+    set book_titl = #{bookTitl,jdbcType=VARCHAR},
+      book_barcode = #{bookBarcode,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      publishing_house = #{publishingHouse,jdbcType=VARCHAR},
+      publication_date = #{publicationDate,jdbcType=DATE},
+      mone = #{mone,jdbcType=DOUBLE},
+      book_types = #{bookTypes,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      purchasing_date = #{purchasingDate,jdbcType=DATE},
+      destroy_date = #{destroyDate,jdbcType=DATE},
+      img = #{img,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=VARCHAR},
+      last_tm = #{lastTm,jdbcType=TIMESTAMP}
+    where book_id = #{bookId,jdbcType=INTEGER}
+      and book_number = #{bookNumber,jdbcType=VARCHAR}
+  </update>
+</mapper>

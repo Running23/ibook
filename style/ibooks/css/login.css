@@ -1,0 +1,25 @@
+html,body{ width:100%;background:url(/ibook/style/ibooks/img/3change.jpg) no-repeat;background-size:100% 100%;}
+.text_one{font-size:2.5em;text-align:center;margin-bottom:1rem;}
+#login-page{width:100%;}
+.bg-green{
+	background-color:#B7DF8D;border-top-right-radius:1em;border-top-left-radius:1em;
+}
+.text_two{font-size:1.6em;margin:.8rem}
+.tab_one{
+	background-color:#FFE199;border-radius:1em;margin-bottom:2rem;opacity:1;
+}
+.text_three{font-size:1em;line-height:1em;margin-top:.8rem;margin-bottom:.5em}
+.text_four{font-size:.8em;line-height:1em;margin-top:1em}
+.btn_one{background-color:#FFD777;width:100%;margin:0 0 1rem 0}
+.inp_one{width:100%;}
+.img_one{height:2rem;float:left;margin:1rem 0 1rem 1rem;}
+.text_five{font-size:.6em;margin-top:.5em;}
+@media (max-width:1240px) {			
+	.img_one{height:2rem;width:3rem;}
+	.text_one{font-size:2em}
+	.text_two{font-size:1.3em}
+}
+#section-login form button{
+	margin-top:10px;
+	font-size:1em;
+}

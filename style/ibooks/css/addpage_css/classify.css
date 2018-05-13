@@ -1,0 +1,11 @@
+.tab_one{
+	background-color:#FFE199;border-radius:1em;margin-bottom:1.5em;
+}
+.img_one{width:3rem;height:3rem;float:left;margin:1rem 1rem 0 1rem;}
+.text_one{font-size:3.2em;vertical-align: bottom;line-height:2.5em;}
+.over_one{font-size:2.2em;line-height:2em;}
+.space{margin-top:2rem;margin-bottom:2rem;}
+.over{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+@media (max-width:480px) {			
+	.over_one{font-size:1.8em}
+}

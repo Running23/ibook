@@ -1,0 +1,5 @@
+.text3{text-align: center;}
+.imgstyle{ width:90px;height:120px;}
+@media (max-width:480px) {
+	.imgstyle{width:35px;height:60px;}
+}

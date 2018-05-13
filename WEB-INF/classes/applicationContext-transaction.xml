@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+    <!-- 声明式事务管理 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:advice id="advice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="insert*" propagation="REQUIRED" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="modify*" propagation="REQUIRED" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="delete*" propagation="REQUIRED" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="remove*" propagation="REQUIRED" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="approval*" propagation="REQUIRED" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="start*" propagation="REQUIRED" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="register*" propagation="REQUIRED" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <!-- 只读 -->
+            <tx:method name="login*" propagation="SUPPORTS" read-only="true" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="get*" propagation="SUPPORTS" read-only="true" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="show*" propagation="SUPPORTS" read-only="true" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+            <tx:method name="select*" propagation="SUPPORTS" read-only="true" rollback-for="java.lang.Exception,java.lang.RuntimeException"/>
+        </tx:attributes>
+    </tx:advice>
+    <!-- 事务切入点 -->
+    <aop:config>
+        <aop:advisor advice-ref="advice" pointcut="execution(* com.ibook.service.impl.*.*(..))"/>
+    </aop:config>
+
+</beans>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ibook.mappers.BookLendMapper" >
+  <resultMap id="BaseResultMap" type="com.ibook.model.BookLend" >
+    <id column="book_lend_id" property="bookLendId" jdbcType="INTEGER" />
+    <result column="book_id" property="bookId" jdbcType="INTEGER" />
+    <result column="reader_id" property="readerId" jdbcType="INTEGER" />
+    <result column="borrow_time" property="borrowTime" jdbcType="TIMESTAMP" />
+    <result column="return_time" property="returnTime" jdbcType="DATE" />
+    <result column="overtime" property="overtime" jdbcType="VARCHAR" />
+    <result column="fines" property="fines" jdbcType="INTEGER" />
+    <result column="reader_account" property="readerAccount" jdbcType="VARCHAR" />
+    <result column="book_lend_state" property="bookLendState" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    book_lend_id, book_id, reader_id, borrow_time, return_time, overtime, fines, reader_account, 
+    book_lend_state
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ibook.model.BookLendExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from book_lend
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from book_lend
+    where book_lend_id = #{bookLendId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from book_lend
+    where book_lend_id = #{bookLendId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ibook.model.BookLendExample" >
+    delete from book_lend
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ibook.model.BookLend" >
+    insert into book_lend (book_lend_id, book_id, reader_id, 
+      borrow_time, return_time, overtime, 
+      fines, reader_account, book_lend_state
+      )
+    values (#{bookLendId,jdbcType=INTEGER}, #{bookId,jdbcType=INTEGER}, #{readerId,jdbcType=INTEGER}, 
+      #{borrowTime,jdbcType=TIMESTAMP}, #{returnTime,jdbcType=DATE}, #{overtime,jdbcType=VARCHAR}, 
+      #{fines,jdbcType=INTEGER}, #{readerAccount,jdbcType=VARCHAR}, #{bookLendState,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ibook.model.BookLend" >
+    insert into book_lend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bookLendId != null" >
+        book_lend_id,
+      </if>
+      <if test="bookId != null" >
+        book_id,
+      </if>
+      <if test="readerId != null" >
+        reader_id,
+      </if>
+      <if test="borrowTime != null" >
+        borrow_time,
+      </if>
+      <if test="returnTime != null" >
+        return_time,
+      </if>
+      <if test="overtime != null" >
+        overtime,
+      </if>
+      <if test="fines != null" >
+        fines,
+      </if>
+      <if test="readerAccount != null" >
+        reader_account,
+      </if>
+      <if test="bookLendState != null" >
+        book_lend_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bookLendId != null" >
+        #{bookLendId,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null" >
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="readerId != null" >
+        #{readerId,jdbcType=INTEGER},
+      </if>
+      <if test="borrowTime != null" >
+        #{borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnTime != null" >
+        #{returnTime,jdbcType=DATE},
+      </if>
+      <if test="overtime != null" >
+        #{overtime,jdbcType=VARCHAR},
+      </if>
+      <if test="fines != null" >
+        #{fines,jdbcType=INTEGER},
+      </if>
+      <if test="readerAccount != null" >
+        #{readerAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bookLendState != null" >
+        #{bookLendState,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ibook.model.BookLendExample" resultType="java.lang.Integer" >
+    select count(*) from book_lend
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update book_lend
+    <set >
+      <if test="record.bookLendId != null" >
+        book_lend_id = #{record.bookLendId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bookId != null" >
+        book_id = #{record.bookId,jdbcType=INTEGER},
+      </if>
+      <if test="record.readerId != null" >
+        reader_id = #{record.readerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.borrowTime != null" >
+        borrow_time = #{record.borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.returnTime != null" >
+        return_time = #{record.returnTime,jdbcType=DATE},
+      </if>
+      <if test="record.overtime != null" >
+        overtime = #{record.overtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fines != null" >
+        fines = #{record.fines,jdbcType=INTEGER},
+      </if>
+      <if test="record.readerAccount != null" >
+        reader_account = #{record.readerAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bookLendState != null" >
+        book_lend_state = #{record.bookLendState,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update book_lend
+    set book_lend_id = #{record.bookLendId,jdbcType=INTEGER},
+      book_id = #{record.bookId,jdbcType=INTEGER},
+      reader_id = #{record.readerId,jdbcType=INTEGER},
+      borrow_time = #{record.borrowTime,jdbcType=TIMESTAMP},
+      return_time = #{record.returnTime,jdbcType=DATE},
+      overtime = #{record.overtime,jdbcType=VARCHAR},
+      fines = #{record.fines,jdbcType=INTEGER},
+      reader_account = #{record.readerAccount,jdbcType=VARCHAR},
+      book_lend_state = #{record.bookLendState,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ibook.model.BookLend" >
+    update book_lend
+    <set >
+      <if test="bookId != null" >
+        book_id = #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="readerId != null" >
+        reader_id = #{readerId,jdbcType=INTEGER},
+      </if>
+      <if test="borrowTime != null" >
+        borrow_time = #{borrowTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="returnTime != null" >
+        return_time = #{returnTime,jdbcType=DATE},
+      </if>
+      <if test="overtime != null" >
+        overtime = #{overtime,jdbcType=VARCHAR},
+      </if>
+      <if test="fines != null" >
+        fines = #{fines,jdbcType=INTEGER},
+      </if>
+      <if test="readerAccount != null" >
+        reader_account = #{readerAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="bookLendState != null" >
+        book_lend_state = #{bookLendState,jdbcType=TINYINT},
+      </if>
+    </set>
+    where book_lend_id = #{bookLendId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ibook.model.BookLend" >
+    update book_lend
+    set book_id = #{bookId,jdbcType=INTEGER},
+      reader_id = #{readerId,jdbcType=INTEGER},
+      borrow_time = #{borrowTime,jdbcType=TIMESTAMP},
+      return_time = #{returnTime,jdbcType=DATE},
+      overtime = #{overtime,jdbcType=VARCHAR},
+      fines = #{fines,jdbcType=INTEGER},
+      reader_account = #{readerAccount,jdbcType=VARCHAR},
+      book_lend_state = #{bookLendState,jdbcType=TINYINT}
+    where book_lend_id = #{bookLendId,jdbcType=INTEGER}
+  </update>
+</mapper>

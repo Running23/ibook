@@ -1,0 +1,16 @@
+.over{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.text_two{font-size:2.5em;line-height:2em;}
+.tab_one{
+	background-color:#FFE199;border-radius:1em;margin-bottom:1.5em;
+}
+.sel{font-size:2.5em;margin:1em 0 1em 0;height:30px}
+.inp{margin:1em 0 1em 0;}
+.img_one{margin:1em 0 1em 0}
+.r_content{width:100%;word-break:break-all;white-space:normal;
+			overflow:hidden;text-overflow:ellipsis;
+			display:-webkit-box;-webkit-line-clamp:6;
+			-webkit-box-orient:vertical;font-size:2.3em;
+			height:130px;position:relative;
+			
+			}
+.r_content::after{content:"...";position:absolute;}

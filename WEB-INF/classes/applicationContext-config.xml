@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+	
+<!-- 	<bean class="com.ibook.socket.server.AServer" destroy-method="close"> -->
+<!-- 		<constructor-arg name="post" value="8080" type="java.lang.Integer"/> -->
+<!-- 		<constructor-arg name="ServerService"> -->
+<!-- 			<bean class="com.ibook.socket.server.RFIDCenter_ZNSJ"/> -->
+<!-- 		</constructor-arg> -->
+<!-- 	</bean> -->
+	
+	<!-- 写三水的设备ip和端口，如果三水的设备不在 请把下面的代码注释掉，不然会报异常，找不到三水 -->
+<!-- 	<bean class="com.ibook.socket.client.NettyClient" > -->
+<!-- 		<constructor-arg name="host" value="192.168.35.1"/> -->
+<!-- 		<constructor-arg name="port" value="8234"/> -->
+<!-- 	</bean> -->
+</beans>
